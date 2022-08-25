@@ -1,10 +1,24 @@
 <template>
   <div class="tagBox">
     <div class="tag">
-      <div :class="[$route.path==='/Home'?'active':'nav']" @click="changHref(0)">主页</div>
-      <div :class="[$route.path==='/Chat'?'active':'nav']" @click="changHref(1)">聊天</div>
-      <div :class="[$route.path==='/Address'?'active':'nav']" @click="changHref(2)">通信录</div>
-
+      <div
+        :class="[$route.path === '/Home' ? 'active' : 'nav']"
+        @click="changHref(0)"
+      >
+        主页
+      </div>
+      <div
+        :class="[$route.path === '/Chat' ? 'active' : 'nav']"
+        @click="changHref(1)"
+      >
+        聊天
+      </div>
+      <div
+        :class="[$route.path === '/Address' ? 'active' : 'nav']"
+        @click="changHref(2)"
+      >
+        通信录
+      </div>
     </div>
     <div class="content">
       <router-view />
@@ -41,7 +55,7 @@ export default {
     background-color: skyblue;
     div {
       padding: 8px;
-      margin: 5px 0;
+      /* margin: 5px 0; */
     }
   }
   .content {
