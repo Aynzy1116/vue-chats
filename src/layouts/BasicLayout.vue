@@ -5,7 +5,7 @@
         :class="[$route.path === '/Home' ? 'active' : 'nav']"
         @click="changHref(0)"
       >
-        主页
+        个人
       </div>
       <div
         :class="[$route.path === '/Chat' ? 'active' : 'nav']"
@@ -20,6 +20,9 @@
         通信录
       </div>
     </div>
+    <div class="tagNav">
+      <left-bar></left-bar>
+    </div>
     <div class="content">
       <router-view />
     </div>
@@ -27,7 +30,11 @@
 </template>
 
 <script>
+import leftBar from '@/components/leftBar/leftBar'
 export default {
+  components: {
+    leftBar
+  },
   created () {
     console.log(this.$route.path)
   },
@@ -52,11 +59,17 @@ export default {
   flex: 1;
   .tag {
     width: 150px;
-    background-color: skyblue;
     div {
       padding: 8px;
-      /* margin: 5px 0; */
+      &:hover{
+        background-color: green;
+        color: #ffffff;
+      }
     }
+  }
+  .tagNav{
+    width: 300px;
+    background-color: #ffffff;
   }
   .content {
     flex: 1;

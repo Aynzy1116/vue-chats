@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import request from '@/util/request.js'
-import io, { Socket } from 'socket.io-client'
+// import request from '@/util/request.js'
+// import io, { Socket } from 'socket.io-client'
 export default {
   name: 'Home',
   data () {
@@ -19,13 +19,13 @@ export default {
     // }).then(res => {
     //   console.log(res)
     // })
-    const socket = io.connect('http://localhost:3010')
-    socket.emit('connection', data => {
-      console.log(data)
-    })
-    socket.on('message', res => {
-      console.log(res)
-    })
+    // const socket = io.connect('http://localhost:3010')
+    // socket.emit('connection', data => {
+    //   console.log(data)
+    // })
+    // socket.on('message', res => {
+    //   console.log(res)
+    // })
   }
 }
 </script>
