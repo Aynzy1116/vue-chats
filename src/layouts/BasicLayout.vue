@@ -1,42 +1,42 @@
 <template>
   <div class="tagBox">
     <div class="tag">
-      <div
-        :class="[$route.path === '/Home' ? 'active' : 'nav']"
-        @click="changHref(0)"
-      >
-        个人
+      <div @click="changHref(0)">
+        <img
+          class="tag-icon"
+          :class="[$route.path === '/Home' ? 'active' : 'nav']"
+          src="@/assets/a.jpg"
+        />
       </div>
-      <div
-        :class="[$route.path === '/Chat' ? 'active' : 'nav']"
-        @click="changHref(1)"
-      >
-        聊天
+      <div @click="changHref(1)">
+        <img
+          class="tag-icon"
+          :class="[$route.path === '/Chat' ? 'active' : 'nav']"
+          src="@/assets/icon/communication.png"
+        />
       </div>
-      <div
-        :class="[$route.path === '/Address' ? 'active' : 'nav']"
-        @click="changHref(2)"
-      >
-        通信录
+      <div @click="changHref(2)">
+        <img
+          class="tag-icon"
+          :class="[$route.path === '/Address' ? 'active' : 'nav']"
+          src="@/assets/icon/people-plus-one.png"
+        />
       </div>
     </div>
     <div class="tagNav">
-      <left-bar></left-bar>
+      <router-view />
     </div>
     <div class="content">
-      <router-view />
+      <chat-content></chat-content>
     </div>
   </div>
 </template>
 
 <script>
-import leftBar from '@/components/leftBar/leftBar'
+import chatContent from '@/components/chatContent'
 export default {
   components: {
-    leftBar
-  },
-  created () {
-    console.log(this.$route.path)
+    chatContent
   },
   methods: {
     changHref (type) {
@@ -47,7 +47,7 @@ export default {
       } else if (type === 2) {
         this.$router.push({ path: '/Address' })
       }
-      console.log(this.$route)
+      // console.log(this.$route)
     }
   }
 }
@@ -57,33 +57,39 @@ export default {
 .tagBox {
   display: flex;
   flex: 1;
+  height: calc(100vh - 16px);
   .tag {
-    width: 150px;
+    width: 60px;
+    background-color: #f1eff1;
+    border-right: 1px solid #f1eff1;
+    box-shadow: 10px 10px 15px 40px #eeb9b9;
     div {
       padding: 8px;
-      &:hover{
-        background-color: green;
-        color: #ffffff;
+      .tag-icon {
+        &:hover {
+          background-color: #d3d2d4;
+          color: #ffffff;
+        }
       }
     }
   }
-  .tagNav{
+  .tagNav {
     width: 300px;
     background-color: #ffffff;
   }
   .content {
     flex: 1;
+    height: 100%;
     background-color: green;
   }
 }
-
 .nav {
-  background-color: #fff;
+  background-color: #f1eff1;
   color: black;
 }
 
 .active {
-  background-color: green;
+  background-color: #d3d2d4;
   color: #ffffff;
 }
 </style>

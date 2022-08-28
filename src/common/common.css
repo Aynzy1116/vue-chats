@@ -1,13 +1,20 @@
-div{
-    font-size: 14px;
-    color: #000000;
+div {
+  font-size: 14px;
+  color: #000000;
 }
 
-.flex{
-    display: flex;
+.flex {
+  display: flex;
 }
 
-.user-icon{
-    width: 30px;
-    height: 30px;
+.user-icon {
+  width: 30px;
+  height: 30px;
+}
+
+.tag-icon {
+  width: 26px;
+  height: 26px;
+  padding: 8px;
+  border-radius: 4px;
 }

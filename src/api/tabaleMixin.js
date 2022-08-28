@@ -4,7 +4,9 @@ import {
 export default {
   computed: {
     ...mapGetters({
-      userId: 'userId'
+      myUser: 'myUser',
+      userInfo: 'userInfo',
+      chatList: 'chatList'
     })
   }
 }

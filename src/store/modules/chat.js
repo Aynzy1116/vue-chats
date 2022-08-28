@@ -1,21 +1,46 @@
+import Vue from 'vue'
+
 const state = {
-  userId: null
+  myUser: {
+    name: 'lz',
+    userId: 857
+  }, // 自己的信息
+  userInfo: {}, // 当前聊天用户信息
+  chatList: {} // 聊天的消息
 }
 
 const mutations = {
-  SET_USERID: (state, info) => {
-    state.userId = info
+  SET_CHATLIST: (state, info) => {
+    if (state.chatList[state.userInfo.userId] === undefined) {
+      Vue.set(state.chatList, state.userInfo.userId, []) // 使用Vue.set 不然监听不到
+    }
+    state.chatList[state.userInfo.userId].push(info)
+    console.log('chatList', state.chatList[state.userInfo.userId])
+    console.log('chatList', state.chatList)
+  },
+  SET_USERINFO: (state, info) => {
+    state.userInfo = info
   }
 }
 const actions = {
-  getUserId ({
+  getUserInfo ({
     commit
-  }, id) {
+  }, userInfo) {
     return new Promise((resolve, reject) => {
-      if (id) {
-        commit('SET_USERID', id)
-        resolve(id)
+      if (userInfo) {
+        commit('SET_USERINFO', userInfo)
+        resolve(userInfo)
       }
+      // eslint-disable-next-line prefer-promise-reject-errors
+      reject()
+    })
+  },
+  getChat ({
+    commit
+  }, data) {
+    return new Promise((resolve, reject) => {
+      commit('SET_CHATLIST', data)
+      resolve()
       // eslint-disable-next-line prefer-promise-reject-errors
       reject()
     })

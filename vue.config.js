@@ -10,9 +10,15 @@ module.exports = {
       '/api': {
         target: 'http://localhost:3001', // API服务器的地址
         changeOrigin: true,
+        ws: true,
         pathRewrite: {
           '^/api': ''
         }
+      },
+      '/socket.io': {
+        target: 'http://localhost:3010', // socket服务器的地址
+        changeOrigin: true,
+        logLevel: 'debug'
       }
     }
   },
