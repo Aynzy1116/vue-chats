@@ -4,74 +4,79 @@ import { BasicLayout } from '@/layouts'
 export const asyncRouterMap = [
   {
     path: '/',
-    name: 'index',
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/User')
+  },
+  {
+    path: '/user',
+    name: 'user',
     component: BasicLayout,
     meta: { title: 'menu.home' },
-    redirect: '/Home',
+    redirect: '/user/Chat',
     children: [
       {
-        path: '/Home',
+        path: 'Home',
         name: 'Home',
         component: () => import('@/views/Home'),
         meta: { title: '主页', icon: 'home', keepAlive: false, permission: ['Home'] }
       },
       {
-        path: '/Chat',
+        path: 'Chat',
         name: 'Chat',
         component: () => import('@/views/Chats'),
         meta: { title: '聊天', icon: 'dollar', permission: ['Chat'] }
       },
       {
-        path: '/Address',
+        path: 'Address',
         name: 'Address',
         component: () => import('@/views/Address'),
         meta: { title: '通讯录', icon: 'dollar', permission: ['Address'] }
       }
     ]
   }
-//   {
-//     path: '*',
-//     redirect: '/404',
-//     hidden: true
-//   }
 ]
 
-/**
- * 基础路由
- * @type { *[] }
- */
-// export const constantRouterMap = [
+// export const asyncRouterMap = [
 //   {
-//     path: '/user',
-//     component: UserLayout,
-//     redirect: '/user/login',
-//     hidden: true,
+//     path: '/',
+//     name: 'index',
+//     component: () => import('@/views/User'),
+//     redirect: '/user'
+//   },
+//   {
+//     path: '/a',
+//     name: 'user',
+//     component: BasicLayout,
+//     meta: { title: 'menu.home' },
+//     redirect: '/a/Home',
 //     children: [
 //       {
-//         path: 'login',
-//         name: 'login',
-//         component: () => import(/* webpackChunkName: "user" */ '@/views/user/Login')
+//         path: '/Home',
+//         name: 'Home',
+//         component: () => import('@/views/Home'),
+//         meta: { title: '主页', icon: 'home', keepAlive: false, permission: ['Home'] }
 //       },
 //       {
-//         path: 'register',
-//         name: 'register',
-//         component: () => import(/* webpackChunkName: "user" */ '@/views/user/Register')
+//         path: '/Chat',
+//         name: 'Chat',
+//         component: () => import('@/views/Chats'),
+//         meta: { title: '聊天', icon: 'dollar', permission: ['Chat'] }
 //       },
 //       {
-//         path: 'register-result',
-//         name: 'registerResult',
-//         component: () => import(/* webpackChunkName: "user" */ '@/views/user/RegisterResult')
-//       },
-//       {
-//         path: 'recover',
-//         name: 'recover',
-//         component: () => import('@/views/user/Recover')
+//         path: '/Address',
+//         name: 'Address',
+//         component: () => import('@/views/Address'),
+//         meta: { title: '通讯录', icon: 'dollar', permission: ['Address'] }
 //       }
 //     ]
-//   },
-
-//   {
-//     path: '/404',
-//     component: () => import(/* webpackChunkName: "fail" */ '@/views/exception/404')
 //   }
+//   //   {
+//   //     path: '*',
+//   //     redirect: '/404',
+//   //     hidden: true
+//   //   }
 // ]
