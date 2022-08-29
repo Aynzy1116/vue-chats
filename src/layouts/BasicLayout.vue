@@ -80,7 +80,7 @@ export default {
   .content {
     flex: 1;
     height: 100%;
-    background-color: green;
+    background-color: #f8f8f8;
   }
 }
 .nav {

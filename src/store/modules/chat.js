@@ -14,9 +14,11 @@ const mutations = {
     if (state.chatList[state.userInfo.userId] === undefined) {
       Vue.set(state.chatList, state.userInfo.userId, []) // 使用Vue.set 不然监听不到
     }
+    info.msg = info.msg.trim()
+    console.log('info', info)
     state.chatList[state.userInfo.userId].push(info)
-    console.log('chatList', state.chatList[state.userInfo.userId])
-    console.log('chatList', state.chatList)
+    // console.log('chatList', state.chatList[state.userInfo.userId])
+    // console.log('chatList', state.chatList)
   },
   SET_USERINFO: (state, info) => {
     state.userInfo = info

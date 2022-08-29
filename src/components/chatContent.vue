@@ -6,7 +6,11 @@
     <div class="chat-content">
       <div v-for="(item, i) in chatList[userInfo.userId]" :key="i">
         <div :class="[item.MyId == userInfo.userId ? 'left' : 'right']">
-          {{ item.msg }}
+          <div class="chat">
+            <div :class="[item.MyId == userInfo.userId ? 'triangle-left' : 'triangle-right']"></div>
+            <div :class="[item.MyId == userInfo.userId ? 'fill-left' : 'fill-right']"></div>
+            {{ item.msg }}</div>
+          <div><img class="tag-icon" src="../assets/a.jpg" alt=""></div>
         </div>
       </div>
     </div>
@@ -101,10 +105,57 @@ export default {
   }
 }
 .left {
-  text-align: left;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  white-space:pre;
 }
 .right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  white-space:pre;
+}
+.chat {
+  position: relative;
+  max-width: 260px;
   padding: 10px;
-  text-align: right;
+  margin-top: 10px;
+  margin-left: 50px;
+  border-radius: 8px;
+  word-break: break-all;
+  background-color: skyblue;
+  white-space: pre-wrap;
+  color: #fff;
+  .triangle-left,
+  .triangle-right {
+      position: absolute;
+      top: 2px;
+      border-width: 6px;
+      border-style: solid;
+  }
+  .triangle-left {
+    left: -10px;
+    border-color: transparent skyblue transparent transparent;
+  }
+  .triangle-right {
+    right: -10px;
+    border-color: transparent transparent transparent skyblue;
+  }
+  .fill-left,
+  .fill-right {
+      position: absolute;
+      top: 2px;
+      border-width: 6px;
+      border-style: solid;
+  }
+  .fill-left {
+      left: -10px;
+      border-color: transparent skyblue transparent transparent;
+  }
+  .fill-right {
+      right: -10px;
+      border-color: transparent transparent transparent skyblue;
+  }
 }
 </style>
