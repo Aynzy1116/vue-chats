@@ -61,10 +61,10 @@ export default {
   height: 100%;
 }
 .header {
-  height: 32px;
+  height: 31px;
   padding: 10px 20px;
   font-size: 16px;
-  line-height: 32px;
+  line-height: 31px;
   text-align: left;
 }
 .chat-content {

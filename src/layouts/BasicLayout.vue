@@ -41,7 +41,8 @@ export default {
   methods: {
     changHref (type) {
       if (type === 0) {
-        this.$router.push({ path: '/user/Home' })
+        // this.$router.push({ path: '/user/Home' })
+        console.log('123', this.$route.path)
       } else if (type === 1) {
         this.$router.push({ path: '/user/Chat' })
       } else if (type === 2) {
