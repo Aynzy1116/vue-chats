@@ -1,26 +1,31 @@
 <template>
   <div class="tagBox">
     <div class="tag">
-      <div @click="changHref(0)">
-        <img
-          class="tag-icon"
-          :class="[$route.path === '/user/Home' ? 'active' : 'nav']"
-          src="@/assets/a.jpg"
-        />
+      <div class="top">
+        <div @click="changHref(0)">
+          <img
+            class="tag-icon"
+            :class="[$route.path === '/user/Home' ? 'active' : 'nav']"
+            src="@/assets/a.jpg"
+          />
+        </div>
+        <div @click="changHref(1)">
+          <img
+            class="tag-icon"
+            :class="[$route.path === '/user/Chat' ? 'active' : 'nav']"
+            src="@/assets/icon/communication.png"
+          />
+        </div>
+        <div @click="changHref(2)">
+          <img
+            class="tag-icon"
+            :class="[$route.path === '/user/Address' ? 'active' : 'nav']"
+            src="@/assets/icon/people-plus-one.png"
+          />
+        </div>
       </div>
-      <div @click="changHref(1)">
-        <img
-          class="tag-icon"
-          :class="[$route.path === '/user/Chat' ? 'active' : 'nav']"
-          src="@/assets/icon/communication.png"
-        />
-      </div>
-      <div @click="changHref(2)">
-        <img
-          class="tag-icon"
-          :class="[$route.path === '/user/Address' ? 'active' : 'nav']"
-          src="@/assets/icon/people-plus-one.png"
-        />
+      <div class="bot">
+        <div @click="logout">退出</div>
       </div>
     </div>
     <div class="tagNav">
@@ -49,6 +54,9 @@ export default {
         this.$router.push({ path: '/user/Address' })
       }
       // console.log(this.$route)
+    },
+    logout () {
+      console.log('退出')
     }
   }
 }
@@ -60,16 +68,23 @@ export default {
   flex: 1;
   height: calc(100vh - 16px);
   .tag {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 60px;
     background-color: #f1eff1;
     border-right: 1px solid #f1eff1;
     box-shadow: 10px 10px 15px 40px #eeb9b9;
-    div {
-      padding: 8px;
-      .tag-icon {
-        &:hover {
-          background-color: #d3d2d4;
-          color: #ffffff;
+    .top,
+    .bot {
+      div {
+        padding: 8px;
+        cursor: pointer;
+        .tag-icon {
+          &:hover {
+            background-color: #d3d2d4;
+            color: #ffffff;
+          }
         }
       }
     }

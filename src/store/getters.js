@@ -1,6 +1,6 @@
 const getters = {
   myUser: state => state.chat.myUser,
-  userInfo: state => state.chat.userInfo,
+  otherUserInfo: state => state.chat.otherUserInfo,
   chatList: state => state.chat.chatList
 }
 

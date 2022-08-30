@@ -5,39 +5,39 @@ const state = {
     name: 'lz',
     userId: 857
   }, // 自己的信息
-  userInfo: {}, // 当前聊天用户信息
+  otherUserInfo: {}, // 当前聊天用户信息
   chatList: {} // 聊天的消息
 }
 
 const mutations = {
   SET_CHATLIST: (state, info) => {
-    if (state.chatList[state.userInfo.userId] === undefined) {
-      Vue.set(state.chatList, state.userInfo.userId, []) // 使用Vue.set 不然监听不到
+    if (state.chatList[state.otherUserInfo.userId] === undefined) {
+      Vue.set(state.chatList, state.otherUserInfo.userId, []) // 使用Vue.set 不然监听不到
     }
     info.msg = info.msg.trim()
     console.log('info', info)
-    state.chatList[state.userInfo.userId].push(info)
-    // console.log('chatList', state.chatList[state.userInfo.userId])
+    state.chatList[state.otherUserInfo.userId].push(info)
+    // console.log('chatList', state.chatList[state.otherUserInfo.userId])
     // console.log('chatList', state.chatList)
   },
   SET_USERINFO: (state, info) => {
-    state.userInfo = info
+    state.otherUserInfo = info
   }
 }
 const actions = {
-  getUserInfo ({
+  setOtherUserInfo ({
     commit
-  }, userInfo) {
+  }, otherUserInfo) {
     return new Promise((resolve, reject) => {
-      if (userInfo) {
-        commit('SET_USERINFO', userInfo)
-        resolve(userInfo)
+      if (otherUserInfo) {
+        commit('SET_USERINFO', otherUserInfo)
+        resolve(otherUserInfo)
       }
       // eslint-disable-next-line prefer-promise-reject-errors
       reject()
     })
   },
-  getChat ({
+  setChatList ({
     commit
   }, data) {
     return new Promise((resolve, reject) => {

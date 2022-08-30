@@ -1,16 +1,27 @@
 <template>
   <div class="box">
     <div class="header">
-      {{ userInfo.name }}
+      {{ otherUserInfo.name }}
     </div>
     <div class="chat-content">
-      <div v-for="(item, i) in chatList[userInfo.userId]" :key="i">
-        <div :class="[item.MyId == userInfo.userId ? 'left' : 'right']">
+      <div v-for="(item, i) in chatList[otherUserInfo.userId]" :key="i">
+        <div :class="[item.MyId == otherUserInfo.userId ? 'left' : 'right']">
           <div class="chat">
-            <div :class="[item.MyId == userInfo.userId ? 'triangle-left' : 'triangle-right']"></div>
-            <div :class="[item.MyId == userInfo.userId ? 'fill-left' : 'fill-right']"></div>
-            {{ item.msg }}</div>
-          <div><img class="tag-icon" src="../assets/a.jpg" alt=""></div>
+            <div
+              :class="[
+                item.MyId == otherUserInfo.userId
+                  ? 'triangle-left'
+                  : 'triangle-right',
+              ]"
+            ></div>
+            <div
+              :class="[
+                item.MyId == otherUserInfo.userId ? 'fill-left' : 'fill-right',
+              ]"
+            ></div>
+            {{ item.msg }}
+          </div>
+          <div><img class="tag-icon" src="../assets/a.jpg" alt="" /></div>
         </div>
       </div>
     </div>
@@ -24,7 +35,7 @@
 </template>
 
 <script>
-import socket from '@/util/socket.js'
+// import socket from '@/util/socket.js'
 
 export default {
   data () {
@@ -36,18 +47,18 @@ export default {
       const item = {
         MyName: this.myUser.name,
         MyId: this.myUser.userId,
-        receiveName: this.userInfo.name,
-        receiveId: this.userInfo.userId,
+        receiveName: this.otherUserInfo.name,
+        receiveId: this.otherUserInfo.userId,
         msg: this.$refs.message.innerText,
         time: new Date().getTime()
       }
-      if (Object.keys(this.userInfo).length === 0) {
+      if (Object.keys(this.otherUserInfo).length === 0) {
         return
       }
-      socket.emit('message', item)
+      // socket.emit('message', item)
       this.$refs.message.innerText = null
       this.$refs.message.focus()
-      console.log(this.chatList[this.userInfo.userId])
+      console.log(this.chatList[this.otherUserInfo.userId])
     }
   }
 
@@ -97,25 +108,29 @@ export default {
       position: absolute;
       right: 10px;
       bottom: 10px;
-      cursor: pointer;
-      width: 30px;
+      width: 40px;
       padding: 4px 6px;
+      text-align: center;
       background-color: #d7cddb;
+      cursor: pointer;
     }
   }
 }
+
 .left {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  white-space:pre;
+  white-space: pre;
 }
 .right {
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  white-space:pre;
+  white-space: pre;
 }
+
+/* 聊天气泡 */
 .chat {
   position: relative;
   max-width: 260px;
@@ -129,10 +144,10 @@ export default {
   color: #fff;
   .triangle-left,
   .triangle-right {
-      position: absolute;
-      top: 2px;
-      border-width: 6px;
-      border-style: solid;
+    position: absolute;
+    top: 2px;
+    border-width: 6px;
+    border-style: solid;
   }
   .triangle-left {
     left: -10px;
@@ -144,18 +159,18 @@ export default {
   }
   .fill-left,
   .fill-right {
-      position: absolute;
-      top: 2px;
-      border-width: 6px;
-      border-style: solid;
+    position: absolute;
+    top: 2px;
+    border-width: 6px;
+    border-style: solid;
   }
   .fill-left {
-      left: -10px;
-      border-color: transparent skyblue transparent transparent;
+    left: -10px;
+    border-color: transparent skyblue transparent transparent;
   }
   .fill-right {
-      right: -10px;
-      border-color: transparent transparent transparent skyblue;
+    right: -10px;
+    border-color: transparent transparent transparent skyblue;
   }
 }
 </style>

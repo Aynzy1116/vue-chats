@@ -5,7 +5,7 @@ export default {
   computed: {
     ...mapGetters({
       myUser: 'myUser',
-      userInfo: 'userInfo',
+      otherUserInfo: 'otherUserInfo',
       chatList: 'chatList'
     })
   }

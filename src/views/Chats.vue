@@ -10,7 +10,7 @@
       <div v-for="item in users" :key="item.userId">
         <div
           class="flex"
-          :class="[item.userId === userInfo.userId ? 'active' : 'nav']"
+          :class="[item.userId === otherUserInfo.userId ? 'active' : 'nav']"
           @click="checkedUser(item)"
         >
           <div class="img">
@@ -45,8 +45,8 @@ export default {
     }
   },
   methods: {
-    checkedUser (userInfo) {
-      this.$store.dispatch('chat/getUserInfo', userInfo)
+    checkedUser (otherUserInfo) {
+      this.$store.dispatch('chat/setOtherUserInfo', otherUserInfo)
     }
   }
 }
