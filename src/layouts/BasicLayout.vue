@@ -39,9 +39,13 @@
 
 <script>
 import chatContent from '@/components/chatContent'
+import watchSocket from '../util/watchSocket'
 export default {
   components: {
     chatContent
+  },
+  created () {
+    watchSocket(this)
   },
   methods: {
     changHref (type) {
@@ -56,7 +60,8 @@ export default {
       // console.log(this.$route)
     },
     logout () {
-      console.log('退出')
+      this.$store.commit('chat/clearSocket', null)
+      this.$router.push('/')
     }
   }
 }

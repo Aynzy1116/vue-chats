@@ -4,6 +4,7 @@ import {
 export default {
   computed: {
     ...mapGetters({
+      socket: 'socket',
       myUser: 'myUser',
       otherUserInfo: 'otherUserInfo',
       chatList: 'chatList'

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 const state = {
+  socket: null,
   myUser: {
     name: 'lz',
     userId: 857
@@ -10,6 +11,13 @@ const state = {
 }
 
 const mutations = {
+  setSocket: (state, socket) => {
+    state.socket = socket
+  },
+  clearSocket: (state, socket) => {
+    // state.socket.disconnect() // 断开连接
+    state.socket = socket
+  },
   SET_CHATLIST: (state, info) => {
     if (state.chatList[state.otherUserInfo.userId] === undefined) {
       Vue.set(state.chatList, state.otherUserInfo.userId, []) // 使用Vue.set 不然监听不到
@@ -17,8 +25,6 @@ const mutations = {
     info.msg = info.msg.trim()
     console.log('info', info)
     state.chatList[state.otherUserInfo.userId].push(info)
-    // console.log('chatList', state.chatList[state.otherUserInfo.userId])
-    // console.log('chatList', state.chatList)
   },
   SET_USERINFO: (state, info) => {
     state.otherUserInfo = info

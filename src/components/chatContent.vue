@@ -6,7 +6,8 @@
     <div class="chat-content">
       <div v-for="(item, i) in chatList[otherUserInfo.userId]" :key="i">
         <div :class="[item.MyId == otherUserInfo.userId ? 'left' : 'right']">
-          <div class="chat">
+          <div v-if="item.MyId == otherUserInfo.userId"><img class="chat-icon" src="../assets/b.jpg" alt="" /></div>
+          <div class="chat" :class="[item.MyId == otherUserInfo.userId ? 'chatleft' : 'chatright']">
             <div
               :class="[
                 item.MyId == otherUserInfo.userId
@@ -21,7 +22,7 @@
             ></div>
             {{ item.msg }}
           </div>
-          <div><img class="tag-icon" src="../assets/a.jpg" alt="" /></div>
+          <div v-if="item.MyId != otherUserInfo.userId"><img class="chat-icon" src="../assets/a.jpg" alt="" /></div>
         </div>
       </div>
     </div>
@@ -35,27 +36,30 @@
 </template>
 
 <script>
-// import socket from '@/util/socket.js'
 
 export default {
   data () {
     return {
+      userInfo: JSON.parse(localStorage.getItem('userInfo'))
     }
+  },
+  created () {
+    this.socket.emit('login', this.userInfo)
   },
   methods: {
     send () {
       const item = {
-        MyName: this.myUser.name,
-        MyId: this.myUser.userId,
-        receiveName: this.otherUserInfo.name,
-        receiveId: this.otherUserInfo.userId,
+        from_name: this.userInfo.username,
+        // from_Id: this.myUser.userId,
+        to_name: this.otherUserInfo.name,
+        // to_Id: this.otherUserInfo.userId,
         msg: this.$refs.message.innerText,
         time: new Date().getTime()
       }
       if (Object.keys(this.otherUserInfo).length === 0) {
         return
       }
-      // socket.emit('message', item)
+      this.socket.emit('message', item)
       this.$refs.message.innerText = null
       this.$refs.message.focus()
       console.log(this.chatList[this.otherUserInfo.userId])
@@ -80,6 +84,7 @@ export default {
 }
 .chat-content {
   flex: 1;
+  overflow-y: auto;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
 }
@@ -172,5 +177,13 @@ export default {
     right: -10px;
     border-color: transparent transparent transparent skyblue;
   }
+}
+.chatleft{
+  display: flex;
+  justify-content: flex-start;
+}
+.chatright{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

@@ -72,7 +72,6 @@ export default {
   },
   methods: {
     login () {
-      console.log('login', this.user)
       localStorage.setItem('userInfo', JSON.stringify(this.user))
       this.$router.push('/user')
     },
@@ -83,7 +82,6 @@ export default {
       if (e.keyCode === 13) {
         this.login()
       }
-      console.log(e.target._value)
     }
   }
 }

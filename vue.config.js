@@ -1,7 +1,8 @@
 module.exports = {
   devServer: {
     open: true, // 是否自动弹出浏览器页面
-    host: 'localhost',
+    // host: 'localhost',
+    host: '192.168.0.107',
     port: '8080',
     https: false,
     hotOnly: false,

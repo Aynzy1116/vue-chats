@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import tabaleMixin from './api/tabaleMixin'
-import './util/socket'
 
 Vue.config.productionTip = false
 Vue.mixin(tabaleMixin)
