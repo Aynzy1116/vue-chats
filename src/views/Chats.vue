@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="content">
-      <div v-for="item in users" :key="item.userId">
+      <div v-for="item in userList" :key="item.userId">
         <div
           class="flex"
           :class="[item.userId === otherUserInfo.userId ? 'active' : 'nav']"
@@ -21,7 +21,7 @@
               <div>{{ item.name }}</div>
               <div>16:05</div>
             </div>
-            <div class="new-message">{{ item.message }}</div>
+            <div class="new-message">{{ msg(item.userId) }}</div>
           </div>
         </div>
       </div>
@@ -32,17 +32,18 @@
 <script>
 export default {
   data () {
-    return {
-      users: [{
-        name: 'xiaodu',
-        userId: 1,
-        message: '在干啥'
-      }, {
-        name: 'Aynzy',
-        userId: 2,
-        message: '我累了'
-      }]
+    return {}
+  },
+  computed: {
+    msg () {
+      return (id) => {
+        if (this.chatList[id] !== undefined) {
+          return this.chatList[id][this.chatList[id].length - 1].msg
+        }
+        return null
+      }
     }
+
   },
   methods: {
     checkedUser (otherUserInfo) {

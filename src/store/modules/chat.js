@@ -7,6 +7,17 @@ const state = {
     userId: 857
   }, // 自己的信息
   otherUserInfo: {}, // 当前聊天用户信息
+  userList: [
+    {
+      name: 'aaa',
+      userId: 1,
+      message: '在干啥'
+    }, {
+      name: 'bbb',
+      userId: 2,
+      message: '我累了'
+    }
+  ], // 所有用户
   chatList: {} // 聊天的消息
 }
 
@@ -15,22 +26,39 @@ const mutations = {
     state.socket = socket
   },
   clearSocket: (state, socket) => {
-    // state.socket.disconnect() // 断开连接
+    state.socket.disconnect() // 断开连接
     state.socket = socket
   },
+  // 将收到的消息置顶
+  topUser: (state, id) => {
+    state.userList.map((item, i) => {
+      if (item.userId === id) {
+        state.userList.unshift(state.userList.splice(i, 1)[0])
+      }
+    })
+  },
   SET_CHATLIST: (state, info) => {
-    if (state.chatList[state.otherUserInfo.userId] === undefined) {
-      Vue.set(state.chatList, state.otherUserInfo.userId, []) // 使用Vue.set 不然监听不到
-    }
+    const my = JSON.parse(localStorage.getItem('userInfo'))
     info.msg = info.msg.trim()
     console.log('info', info)
-    state.chatList[state.otherUserInfo.userId].push(info)
+    if (my.id === info.from_Id) {
+      if (state.chatList[info.to_Id] === undefined) {
+        Vue.set(state.chatList, info.to_Id, []) // 使用Vue.set 不然监听不到
+      }
+      state.chatList[info.to_Id].push(info)
+    } else {
+      if (state.chatList[info.from_Id] === undefined) {
+        Vue.set(state.chatList, info.from_Id, []) // 使用Vue.set 不然监听不到
+      }
+      state.chatList[info.from_Id].push(info)
+    }
   },
   SET_USERINFO: (state, info) => {
     state.otherUserInfo = info
   }
 }
 const actions = {
+  // 设置聊天的用户
   setOtherUserInfo ({
     commit
   }, otherUserInfo) {
@@ -43,6 +71,7 @@ const actions = {
       reject()
     })
   },
+  // 将聊天信息保存
   setChatList ({
     commit
   }, data) {

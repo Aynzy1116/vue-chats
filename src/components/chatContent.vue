@@ -5,24 +5,24 @@
     </div>
     <div class="chat-content">
       <div v-for="(item, i) in chatList[otherUserInfo.userId]" :key="i">
-        <div :class="[item.MyId == otherUserInfo.userId ? 'left' : 'right']">
-          <div v-if="item.MyId == otherUserInfo.userId"><img class="chat-icon" src="../assets/b.jpg" alt="" /></div>
-          <div class="chat" :class="[item.MyId == otherUserInfo.userId ? 'chatleft' : 'chatright']">
+        <div :class="[item.from_name == otherUserInfo.name ? 'left' : 'right']">
+          <div v-if="item.from_name == otherUserInfo.name"><img class="chat-icon" src="../assets/b.jpg" alt="" /></div>
+          <div class="chat" :class="[item.from_name == otherUserInfo.name ? 'chatleft' : 'chatright']">
             <div
               :class="[
-                item.MyId == otherUserInfo.userId
+                item.from_name == otherUserInfo.name
                   ? 'triangle-left'
                   : 'triangle-right',
               ]"
             ></div>
             <div
               :class="[
-                item.MyId == otherUserInfo.userId ? 'fill-left' : 'fill-right',
+                item.from_name == otherUserInfo.name ? 'fill-left' : 'fill-right',
               ]"
             ></div>
             {{ item.msg }}
           </div>
-          <div v-if="item.MyId != otherUserInfo.userId"><img class="chat-icon" src="../assets/a.jpg" alt="" /></div>
+          <div v-if="item.from_name != otherUserInfo.name"><img class="chat-icon" src="../assets/a.jpg" alt="" /></div>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-
+import store from '../store'
 export default {
   data () {
     return {
@@ -44,25 +44,30 @@ export default {
     }
   },
   created () {
+    console.log(this.userInfo)
     this.socket.emit('login', this.userInfo)
   },
   methods: {
     send () {
+      // console.log('userInfo', this.userInfo)
       const item = {
         from_name: this.userInfo.username,
-        // from_Id: this.myUser.userId,
+        from_Id: this.userInfo.id,
         to_name: this.otherUserInfo.name,
-        // to_Id: this.otherUserInfo.userId,
+        to_Id: this.userInfo.toid,
         msg: this.$refs.message.innerText,
         time: new Date().getTime()
       }
       if (Object.keys(this.otherUserInfo).length === 0) {
         return
       }
+      // console.log(item)
+      store.dispatch('chat/setChatList', item)
       this.socket.emit('message', item)
       this.$refs.message.innerText = null
       this.$refs.message.focus()
-      console.log(this.chatList[this.otherUserInfo.userId])
+      console.log('otherUserInfo', this.otherUserInfo)
+      console.log('chatList', this.chatList)
     }
   }
 
@@ -141,7 +146,6 @@ export default {
   max-width: 260px;
   padding: 10px;
   margin-top: 10px;
-  margin-left: 50px;
   border-radius: 8px;
   word-break: break-all;
   background-color: skyblue;
@@ -185,5 +189,6 @@ export default {
 .chatright{
   display: flex;
   justify-content: flex-end;
+  margin-left: 50px;
 }
 </style>

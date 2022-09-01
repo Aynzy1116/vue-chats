@@ -7,6 +7,7 @@ export default {
       socket: 'socket',
       myUser: 'myUser',
       otherUserInfo: 'otherUserInfo',
+      userList: 'userList',
       chatList: 'chatList'
     })
   }
