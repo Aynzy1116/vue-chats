@@ -1,9 +1,26 @@
 import axios from 'axios'
+// import devconfig from '../config'
 
-const request = axios.create({
-  // API 请求的默认前缀
-  baseURL: '/api',
-  timeout: 60000 // 请求超时时间
+// const baseURL = process.env.NODE_ENV === 'development' ? devconfig.baseUrl.dev : devconfig.baseUrl.pro
+
+const service = axios.create({
+  baseURL: 'http://localhost:3010/api/',
+  timeout: 10000
 })
 
-export default request
+service.interceptors.request.use(config => {
+  return config;
+}, error => {
+  Promise.reject(error)
+})
+
+service.interceptors.response.use(
+  (response) => {
+    return response.data
+  },
+  error => {
+    return Promise.reject(new Error(error.response.data))
+  }
+)
+
+export default service

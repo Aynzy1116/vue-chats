@@ -2,12 +2,20 @@ module.exports = {
   devServer: {
     open: true, // 是否自动弹出浏览器页面
     // host: 'localhost',
-    host: '192.168.0.107',
+    host: '192.168.137.1',
     port: '8080',
     https: false,
     hotOnly: false,
     // 配置代理实现跨域
     proxy: {
+      '/proxy': {
+        target: 'http://106.52.29.126:8081', // API服务器的地址
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/proxy': ''
+        }
+      },
       '/api': {
         target: 'http://localhost:3001', // API服务器的地址
         changeOrigin: true,

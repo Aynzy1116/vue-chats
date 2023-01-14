@@ -4,15 +4,15 @@ import store from '../store'
 const my = JSON.parse(localStorage.getItem('userInfo'))
 export default function (that) {
   console.log('that', that)
-  //   const socket = io.connect('http://localhost:3010')
-  const socket = io.connect('http://192.168.0.107:3010')
+  const socket = io.connect('http://localhost:3030')
+  // const socket = io.connect('http://192.168.0.107:3010')
   that.$store.commit('chat/setSocket', socket) // 登入时保存socket到store
 
   // 接收聊天消息
   socket.on('message', (data) => {
     console.log('data', data)
-    that.$store.commit('chat/topUser', data.from_Id) // 将收到消息的用户置顶
-    store.dispatch('chat/setChatList', data) // 添加聊天消息
+    // that.$store.commit('chat/topUser', data.from_id) // 将收到消息的用户置顶
+    store.commit('chat/setChatList', data) // 添加聊天消息
   })
 
   socket.on('userList', user => {
@@ -33,7 +33,7 @@ export default function (that) {
     if (reason === 'io server disconnect' || reason === 'transport close' || reason === 'transport error') {
       socket.connect()
     } else if (reason === 'io client disconnect') {
-      console.log('一些事情')
+      console.log('手动断开连接')
     }
   })
 

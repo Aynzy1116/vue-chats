@@ -2,10 +2,7 @@ import Vue from 'vue'
 
 const state = {
   socket: null,
-  myUser: {
-    name: 'lz',
-    userId: 857
-  }, // 自己的信息
+  myUser: JSON.parse(localStorage.getItem('userInfo')) || {}, // 自己的信息
   otherUserInfo: {}, // 当前聊天用户信息
   userList: [
     {
@@ -18,7 +15,8 @@ const state = {
       message: '我累了'
     }
   ], // 所有用户
-  chatList: {} // 聊天的消息
+  chatList: {}, // 聊天的消息
+  allChatList: new Map() // 聊天的消息
 }
 
 const mutations = {
@@ -29,6 +27,11 @@ const mutations = {
     state.socket.disconnect() // 断开连接
     state.socket = socket
   },
+  // 初始存储聊天信息
+  setAllChatList (state, data) {
+    state.allChatList = data
+    // console.log('allChatList', state.allChatList);
+  },
   // 将收到的消息置顶
   topUser: (state, id) => {
     state.userList.map((item, i) => {
@@ -37,20 +40,27 @@ const mutations = {
       }
     })
   },
-  SET_CHATLIST: (state, info) => {
+  // 登录的用户信息
+  login: (state, userInfo) => {
+    console.log('userInfo', userInfo)
+    state.myUser = userInfo
+  },
+  // 保存聊天信息
+  setChatList: (state, info) => {
     const my = JSON.parse(localStorage.getItem('userInfo'))
-    info.msg = info.msg.trim()
+    info.message = info.message.trim()
     console.log('info', info)
-    if (my.id === info.from_Id) {
-      if (state.chatList[info.to_Id] === undefined) {
-        Vue.set(state.chatList, info.to_Id, []) // 使用Vue.set 不然监听不到
+    console.log('allChatList', state.allChatList);
+    if (my.id === info.from_id) {
+      if (!state.allChatList.has(info.to_id)) {
+        state.allChatList.set(info.to_id, [])
       }
-      state.chatList[info.to_Id].push(info)
+      state.allChatList.get(info.to_id).push(info)
     } else {
-      if (state.chatList[info.from_Id] === undefined) {
-        Vue.set(state.chatList, info.from_Id, []) // 使用Vue.set 不然监听不到
+      if (!state.allChatList.has(info.from_id)) {
+        state.allChatList.set(info.from_id, [])
       }
-      state.chatList[info.from_Id].push(info)
+      state.allChatList.get(info.from_id).push(info)
     }
   },
   SET_USERINFO: (state, info) => {
@@ -71,17 +81,6 @@ const actions = {
       reject()
     })
   },
-  // 将聊天信息保存
-  setChatList ({
-    commit
-  }, data) {
-    return new Promise((resolve, reject) => {
-      commit('SET_CHATLIST', data)
-      resolve()
-      // eslint-disable-next-line prefer-promise-reject-errors
-      reject()
-    })
-  }
 }
 export default {
   namespaced: true,
