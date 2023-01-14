@@ -1,4 +1,5 @@
 # chats in vue
+# 需要配合项目socketexpress使用
 
 # 关于code
   600 用户已存在
