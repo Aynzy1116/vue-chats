@@ -1,10 +1,11 @@
 <template>
-  <div class="box">
+  <div class="box" @keyup="enter">
     <div class="header">
       {{ otherUserInfo.name }}
     </div>
     <div class="chat-content">
       <div v-for="(item, i) in currentChatMessage" :key="item.id">
+        <div style="font-size: 13px;">{{ $moment(item.createTime).calendar()}}</div>
         <div :class="[item.from_name == otherUserInfo.name ? 'left' : 'right']">
           <div v-if="item.from_name == otherUserInfo.name"><img class="chat-icon" src="../assets/b.jpg" alt="" /></div>
           <div class="chat" :class="[item.from_name == otherUserInfo.name ? 'chatleft' : 'chatright']">
@@ -20,6 +21,7 @@
           </div>
           <div v-if="item.from_name != otherUserInfo.name"><img class="chat-icon" src="../assets/a.jpg" alt="" /></div>
         </div>
+
       </div>
     </div>
     <div class="footer">
@@ -46,15 +48,18 @@
     },
     watch: {
       otherUserInfo (a, b) {
-        console.log('aaa', a);
-        console.log('allChatList', this.allChatList);
         if (this.allChatList.has(a.id)) {
-          this.currentChatMessage = this.allChatList.get(a.id)
+          this.currentChatMessage = this.allChatList.get(a.id).messages
           console.log('currentChatMessage', this.currentChatMessage);
         }
       }
     },
     methods: {
+      enter (e) {
+        if (e.keyCode === 13) {
+          this.send()
+        }
+      },
       send () {
         console.log('userInfo', this.userInfo)
         console.log('otherUserInfo', this.otherUserInfo)
@@ -63,20 +68,17 @@
           from_name: this.userInfo.name,
           to_id: this.otherUserInfo.id,
           to_name: this.otherUserInfo.name,
-          message: this.$refs.message.innerText,
+          message: this.$refs.message.innerText.trim(),
           createTime: this.$moment().format()
         }
         if (Object.keys(this.otherUserInfo).length === 0) {
           return
         }
-        console.log(item)
+        console.log('item', item)
         this.currentChatMessage.push(item)
-        // store.dispatch('chat/setChatList', item)
         this.socket.emit('message', item)
         this.$refs.message.innerText = null
         this.$refs.message.focus()
-        // console.log('otherUserInfo', this.otherUserInfo)
-        // console.log('chatList', this.chatList)
       }
     }
 
@@ -101,6 +103,7 @@
   .chat-content {
     flex: 1;
     overflow-y: auto;
+    padding-top: 10px;
     border-bottom: 1px solid black;
     border-top: 1px solid black;
   }
@@ -168,6 +171,7 @@
     background-color: skyblue;
     white-space: pre-wrap;
     color: #fff;
+    text-align: left;
 
     .triangle-left,
     .triangle-right {

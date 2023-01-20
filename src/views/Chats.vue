@@ -12,7 +12,7 @@
           <div class="img">
             <img class="user-icon" src="../assets/a.jpg" />
           </div>
-          <div style="flex: 1">
+          <div style="width: 240px">
             <div class="name-time">
               <div>{{ item.name }}</div>
               <div style="font-size: 14px;">{{ msg(item,1) }}</div>
@@ -41,18 +41,18 @@
             return null
           } else {
             if (type == 1) {
-              return this.$moment(item.messages[item.messages.length - 1].createTime).format('YYYY-MM-DD LTS')
+              let dataTime = this.$commonHelper.desriptDateTime(item.messages[item.messages.length - 1].createTime)
+              return dataTime.substring(1, dataTime.length - 1)
             }
             else return item.messages[item.messages.length - 1].message
-
           }
-          // if (this.chatList[id] !== undefined) {
-          //   return this.chatList[id][this.chatList[id].length - 1].msg
-          // }
-          // return null
         }
       }
-
+    },
+    watch: {
+      allChatList (a, b) {
+        this.friends = this.$commonHelper.changeMap(a)
+      }
     },
     created () {
       if (Object.keys(this.myUser).length == 0) {
@@ -66,11 +66,7 @@
         this.friends = res.result
         console.log('this.friends', this.friends);
         // 转化为Map()存储
-        let map = new Map()
-        res.result.forEach(x => {
-          map.set(x.id, x.messages)
-        })
-        this.$store.commit('chat/setAllChatList', map)
+        this.$store.commit('chat/setAllChatList', this.$commonHelper.changeArray(res.result))
       })
     },
     methods: {
@@ -84,6 +80,8 @@
 
 <style lang="scss" scoped>
   .leftBar {
+    width: 100%;
+
     .search {
       box-sizing: border-box;
       position: relative;
@@ -114,10 +112,15 @@
     }
 
     .content {
+      width: 100%;
       background-color: #ffffff;
 
       div {
+
         .flex {
+          box-sizing: border-box;
+          display: flex;
+          width: 100%;
           align-items: center;
           padding: 10px;
 
@@ -131,13 +134,18 @@
 
           div {
             .name-time {
+              width: 100%;
               display: flex;
               justify-content: space-between;
               align-items: center;
             }
 
             .new-message {
+              width: 100%;
               text-align: left;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
               color: #ab8eed;
             }
           }

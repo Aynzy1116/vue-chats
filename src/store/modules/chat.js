@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import $commonHelper from '@/util/util.js'
 
 const state = {
   socket: null,
@@ -15,7 +16,6 @@ const state = {
       message: '我累了'
     }
   ], // 所有用户
-  chatList: {}, // 聊天的消息
   allChatList: new Map() // 聊天的消息
 }
 
@@ -30,15 +30,16 @@ const mutations = {
   // 初始存储聊天信息
   setAllChatList (state, data) {
     state.allChatList = data
-    // console.log('allChatList', state.allChatList);
   },
   // 将收到的消息置顶
   topUser: (state, id) => {
-    state.userList.map((item, i) => {
-      if (item.userId === id) {
-        state.userList.unshift(state.userList.splice(i, 1)[0])
+    let lists = $commonHelper.changeMap(state.allChatList)
+    lists.forEach((item, i) => {
+      if (item.id === id) {
+        lists.unshift(lists.splice(i, 1)[0])
       }
     })
+    state.allChatList = $commonHelper.changeArray(lists)
   },
   // 登录的用户信息
   login: (state, userInfo) => {
@@ -49,18 +50,16 @@ const mutations = {
   setChatList: (state, info) => {
     const my = JSON.parse(localStorage.getItem('userInfo'))
     info.message = info.message.trim()
-    console.log('info', info)
-    console.log('allChatList', state.allChatList);
     if (my.id === info.from_id) {
-      if (!state.allChatList.has(info.to_id)) {
-        state.allChatList.set(info.to_id, [])
-      }
-      state.allChatList.get(info.to_id).push(info)
+      // if (!state.allChatList.has(info.to_id)) {
+      //   state.allChatList.set(info.to_id, [])
+      // }
+      state.allChatList.get(info.to_id).messages.push(info)
     } else {
-      if (!state.allChatList.has(info.from_id)) {
-        state.allChatList.set(info.from_id, [])
-      }
-      state.allChatList.get(info.from_id).push(info)
+      // if (!state.allChatList.has(info.from_id)) {
+      //   state.allChatList.set(info.from_id, [])
+      // }
+      state.allChatList.get(info.from_id).messages.push(info)
     }
   },
   SET_USERINFO: (state, info) => {

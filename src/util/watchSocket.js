@@ -11,7 +11,7 @@ export default function (that) {
   // 接收聊天消息
   socket.on('message', (data) => {
     console.log('data', data)
-    // that.$store.commit('chat/topUser', data.from_id) // 将收到消息的用户置顶
+    that.$store.commit('chat/topUser', data.from_id) // 将收到消息的用户置顶
     store.commit('chat/setChatList', data) // 添加聊天消息
   })
 
